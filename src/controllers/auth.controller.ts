@@ -15,6 +15,7 @@ const loginSchema = z.object({
 
 export const authController = {
   async register(request: FastifyRequest, reply: FastifyReply) {
+    console.log('🚀 ~ request:', request)
     try {
       const data = registerSchema.parse(request.body)
       const user = await authService.register(data)

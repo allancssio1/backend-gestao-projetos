@@ -23,7 +23,6 @@ COPY package*.json ./
 RUN npm ci --only=production
 
 COPY --from=builder /app/dist ./dist
-COPY --from=builder /app/drizzle ./drizzle
 COPY start.sh ./
 
 RUN chmod +x start.sh

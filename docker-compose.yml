@@ -4,15 +4,15 @@ services:
     container_name: gestao-projetos-db
     restart: unless-stopped
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: gestao_projetos
+      POSTGRES_USER: ${DB_USER:-postgres}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-postgres}
+      POSTGRES_DB: ${DB_NAME:-gestao_projetos}
     ports:
-      - '5432:5432'
+      - '${DB_PORT:-5432}:5432'
     volumes:
       - postgres_data:/var/lib/postgresql/data
     healthcheck:
-      test: ['CMD-SHELL', 'pg_isready -U postgres']
+      test: ['CMD-SHELL', 'pg_isready -U ${DB_USER:-postgres}']
       interval: 5s
       timeout: 5s
       retries: 5
@@ -24,17 +24,17 @@ services:
     container_name: gestao-projetos-backend
     restart: unless-stopped
     ports:
-      - '3333:3333'
+      - '${PORT:-3333}:${PORT:-3333}'
     environment:
-      NODE_ENV: production
-      PORT: 3333
-      HOST: 0.0.0.0
+      NODE_ENV: ${NODE_ENV:-production}
+      PORT: ${PORT:-3333}
+      HOST: ${HOST:-0.0.0.0}
       DB_HOST: postgres
       DB_PORT: 5432
-      DB_USER: postgres
-      DB_PASSWORD: postgres
-      DB_NAME: gestao_projetos
-      JWT_SECRET: your-secret-key-change-in-production
+      DB_USER: ${DB_USER:-postgres}
+      DB_PASSWORD: ${DB_PASSWORD:-postgres}
+      DB_NAME: ${DB_NAME:-gestao_projetos}
+      JWT_SECRET: ${JWT_SECRET:-your-secret-key-change-in-production}
     depends_on:
       postgres:
         condition: service_healthy
