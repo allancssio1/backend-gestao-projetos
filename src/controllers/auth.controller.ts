@@ -1,15 +1,15 @@
 import { FastifyRequest, FastifyReply } from 'fastify'
-import { z } from 'zod'
+import { z } from 'zod/v4'
 import { authService } from '../services/auth.service'
 
 const registerSchema = z.object({
   name: z.string().min(1),
-  email: z.string().email(),
+  email: z.email(),
   password: z.string().min(6),
 })
 
 const loginSchema = z.object({
-  email: z.string().email(),
+  email: z.email(),
   password: z.string().min(6),
 })
 
@@ -22,7 +22,8 @@ export const authController = {
       reply.status(201).send(user)
     } catch (error) {
       if (error instanceof z.ZodError) {
-        reply.status(400).send({ error: error.errors })
+        console.log('🚀 ~ error._zod.output:', error._zod.output)
+        reply.status(400).send({ error: error._zod.output })
       } else if (error instanceof Error) {
         reply.status(400).send({ error: error.message })
       } else {
@@ -36,10 +37,11 @@ export const authController = {
       const { email, password } = loginSchema.parse(request.body)
       const user = await authService.login(email, password)
       const token = request.server.jwt.sign({ id: user.id })
-      reply.send({ user, token })
+      reply.send({ token })
     } catch (error) {
       if (error instanceof z.ZodError) {
-        reply.status(400).send({ error: error.errors })
+        console.log('🚀 ~ error._zod.output:', error._zod.output)
+        reply.status(400).send({ error: error._zod.output })
       } else if (error instanceof Error) {
         reply.status(401).send({ error: error.message })
       } else {

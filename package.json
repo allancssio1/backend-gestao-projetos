@@ -7,7 +7,7 @@
     "dev": "tsx watch src/server.ts",
     "build": "tsc",
     "start": "node dist/server.js",
-    "migrate": "drizzle-kit migrate",
+    "migrate": "node dist/utils/migrate.js",
     "generate": "drizzle-kit generate",
     "studio": "drizzle-kit studio"
   },
@@ -29,7 +29,7 @@
     "@types/bcrypt": "^5.0.2",
     "@types/node": "^22.10.2",
     "@types/pg": "^8.11.10",
-    "drizzle-kit": "^0.29.1",
+    "drizzle-kit": "^0.31.8",
     "typescript": "^5.7.2"
   }
 }

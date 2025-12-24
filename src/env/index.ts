@@ -1,5 +1,11 @@
 import { z } from 'zod'
-import 'dotenv'
+
+// Em desenvolvimento, carregar .env
+// Em produção (Docker), as variáveis vêm do docker-compose.yml
+// Se NODE_ENV não está definido OU não é production, carregar .env
+if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') {
+  require('dotenv/config')
+}
 
 const envSchema = z.object({
   NODE_ENV: z

@@ -8,6 +8,7 @@ echo "PostgreSQL started"
 
 echo "Running migrations..."
 npm run migrate
+echo "Migrations finished"
 
 echo "Starting server..."
 node dist/server.js

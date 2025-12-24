@@ -12,6 +12,9 @@ app.register(cors, {
 
 app.register(jwt, {
   secret: env.JWT_SECRET,
+  sign: {
+    expiresIn: '1d',
+  },
 })
 
 app.register(routes)
